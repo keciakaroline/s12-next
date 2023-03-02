@@ -1,5 +1,5 @@
 import cx from "./Header.module.scss";
-import { useViewState } from "../hooks/useViewState";
+import { useViewState } from "../../application/hooks/useViewState";
 
 export const Header = () => {
   const { goToRooms, goToStudents, goToInventory } = useViewState();

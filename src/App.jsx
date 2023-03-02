@@ -1,10 +1,10 @@
-import { Header } from "./components/Header";
-import { CourseTakersProvider } from "./context/CourseTakersProvider";
-import { ViewStateProvider } from "./context/ViewStateProvider";
-import { useViewState } from "./hooks/useViewState";
-import { Rooms } from "./pages/Rooms";
-import { Students } from "./pages/Students";
-import "./styles/global.scss";
+import { Header } from "./ui/components/Header";
+import { ReservationsProvider } from "./application/providers/ReservationsProvider";
+import { ViewStateProvider } from "./application/providers/ViewStateProvider";
+import { useViewState } from "./application/hooks/useViewState";
+import { Rooms } from "./ui/pages/Rooms";
+import { Students } from "./ui/pages/Students";
+import "./ui/styles/global.scss";
 
 function App() {
   const { viewState } = useViewState();
@@ -28,9 +28,9 @@ function App() {
 
 const AppWithProviders = () => (
   <ViewStateProvider>
-    <CourseTakersProvider>
+    <ReservationsProvider>
       <App />
-    </CourseTakersProvider>
+    </ReservationsProvider>
   </ViewStateProvider>
 );
 
