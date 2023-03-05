@@ -5,6 +5,8 @@ import { useViewState } from "./application/hooks/useViewState";
 import { Rooms } from "./ui/pages/Rooms";
 import { Students } from "./ui/pages/Students";
 import "./ui/styles/global.scss";
+import { InventoryProvider } from "./application/providers/InventoryProvider";
+import { Inventory } from "./ui/pages/Inventory";
 
 function App() {
   const { viewState } = useViewState();
@@ -12,7 +14,7 @@ function App() {
   const renderViewMatrix = {
     Rooms: () => <Rooms />,
     Students: () => <Students />,
-    Inventory: () => <>Inventory</>,
+    Inventory: () => <Inventory />,
   };
 
   const renderView = renderViewMatrix[viewState.view];
@@ -29,7 +31,9 @@ function App() {
 const AppWithProviders = () => (
   <ViewStateProvider>
     <ReservationsProvider>
-      <App />
+      <InventoryProvider>
+        <App />
+      </InventoryProvider>
     </ReservationsProvider>
   </ViewStateProvider>
 );
