@@ -1,5 +1,5 @@
 import { useInventory } from "../../application/hooks/useInventory";
-import { InventoryItem } from "../components/InventoryItem";
+import { InventoryItem } from "../../ui/components/InventoryItem";
 import cx from "./Inventory.module.scss";
 
 export const Inventory = () => {
@@ -12,7 +12,10 @@ export const Inventory = () => {
   return (
     <ul className={cx.list}>
       {inventory.map((item) => (
-        <InventoryItem key={item.id} item={item} />
+        <InventoryItem
+          key={item.id}
+          item={item}
+        />
       ))}
 
       <div className={cx.spacing} />

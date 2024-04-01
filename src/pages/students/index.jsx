@@ -1,7 +1,7 @@
 import { useReservations } from "../../application/hooks/useReservations";
 import { useViewState } from "../../application/hooks/useViewState";
 import { useEffect } from "react";
-import { Calendar } from "../components/Calendar";
+import { Calendar } from "../../ui/components/Calendar";
 import cx from "./Students.module.scss";
 import { filterReservationsByStudent } from "../../domain/filterReservationsByStudent";
 
@@ -48,7 +48,10 @@ export const Students = () => {
           onChange={(event) => goToStudents(Number(event.target.value))}
         >
           {students.map((student) => (
-            <option key={student.id} value={student.id}>
+            <option
+              key={student.id}
+              value={student.id}
+            >
               {student.name}
             </option>
           ))}
