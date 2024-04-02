@@ -1,3 +1,9 @@
+// export const filterReservationsByRoom = (reservations, room) => {
+//   return reservations.filter((reservation) => reservation.room.id === room.id);
+// };
+
 export const filterReservationsByRoom = (reservations, room) => {
-  return reservations.filter((reservation) => reservation.room.id === room.id);
+  return reservations?.filter(
+    (reservation) => reservation.room.id === room?.id
+  );
 };
