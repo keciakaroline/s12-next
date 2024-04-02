@@ -2,7 +2,7 @@ import { useInventory } from "../../application/hooks/useInventory";
 import { InventoryItem } from "../../ui/components/InventoryItem";
 import cx from "./Inventory.module.scss";
 
-export const Inventory = () => {
+const Inventory = () => {
   const { inventory, isLoading } = useInventory();
 
   if (isLoading) {
@@ -22,3 +22,5 @@ export const Inventory = () => {
     </ul>
   );
 };
+
+export default Inventory;
