@@ -2,7 +2,7 @@ import { useReservations } from "../../application/hooks/useReservations";
 import { useViewState } from "../../application/hooks/useViewState";
 import { useEffect } from "react";
 import { Calendar } from "../../ui/components/Calendar";
-import cx from "./Students.module.scss";
+import cx from "./index.module.scss";
 import { filterReservationsByStudent } from "../../domain/filterReservationsByStudent";
 
 const Students = () => {

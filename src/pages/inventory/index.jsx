@@ -1,6 +1,6 @@
 import { useInventory } from "../../application/hooks/useInventory";
 import { InventoryItem } from "../../ui/components/InventoryItem";
-import cx from "./Inventory.module.scss";
+import cx from "./index.module.scss";
 
 const Inventory = () => {
   const { inventory, isLoading } = useInventory();
