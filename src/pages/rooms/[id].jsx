@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useReservations } from "../../application/hooks/useReservations";
 import { Calendar } from "../../ui/components/Calendar";
 import cx from "./index.module.scss";
@@ -6,33 +5,25 @@ import { filterReservationsByRoom } from "../../domain/filterReservationsByRoom"
 import { useParams, useRouter } from "next/navigation";
 
 const Rooms = () => {
-  const { reservations, rooms, isLoading } = useReservations();
+  const { reservations, rooms } = useReservations();
   const router = useRouter();
   const params = useParams();
 
-  const hasSelectedRoom = params.id !== undefined;
-
-  // let hasSelectedRoom = false;
-  // if (params) {
-  //   hasSelectedRoom = params.id !== undefined;
-  // }
-
-  useEffect(() => {
-    if (isLoading || hasSelectedRoom) {
-      return;
-    }
-
-    const [firstRoom] = rooms;
-
-    router.replace(`/rooms/${firstRoom.id}`);
-  }, [reservations, isLoading, hasSelectedRoom]);
-
-  if (!hasSelectedRoom) {
+  if (!reservations || !rooms) {
     return <>Loading...</>;
   }
 
+  const [firstRoom] = rooms;
+
+  if (!rooms.some((room) => room.id.toString() === params.id)) {
+    router.replace(`/rooms/${firstRoom.id}`);
+    return;
+  }
+
   const selectedRoomId = params.id;
-  const selectedRoom = rooms.find((room) => room.id === selectedRoomId);
+  const selectedRoom = rooms.find(
+    (room) => room.id.toString() === selectedRoomId
+  );
   const selectedRoomReservations = filterReservationsByRoom(
     reservations,
     selectedRoom
