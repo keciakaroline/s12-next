@@ -30,11 +30,11 @@ const Room = () => {
   );
 
   const calendarEntries = selectedRoomReservations.map((reservation) => ({
-    id: reservation.id,
+    id: reservation.id.toString(),
     title: reservation.student.name,
     dateStart: reservation.startDate,
     dateEnd: reservation.endDate,
-    group: reservation.id,
+    group: reservation.id.toString(),
   }));
 
   return (

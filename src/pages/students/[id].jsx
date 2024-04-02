@@ -19,8 +19,9 @@ const Student = () => {
     return;
   }
 
+  const selectedStudentId = params.id;
   const selectedStudent = students.find(
-    (courseTaker) => courseTaker.id === params.id
+    (courseTaker) => courseTaker.id.toString() === params.id
   );
   const selectedStudentReservations = filterReservationsByStudent(
     reservations,
@@ -28,18 +29,18 @@ const Student = () => {
   );
 
   const entries = selectedStudentReservations.map((reservation) => ({
-    id: reservation.id,
+    id: reservation.id.toString(),
     title: `${reservation.room.number} - ${reservation.room.name}`,
     dateStart: reservation.startDate,
     dateEnd: reservation.endDate,
-    group: reservation.id,
+    group: reservation.id.toString(),
   }));
 
   return (
     <>
       <div className={cx.placeSelectContainer}>
         <select
-          value={params.id}
+          value={selectedStudentId}
           onChange={(event) =>
             router.push(`/students/${Number(event.target.value)}`)
           }
