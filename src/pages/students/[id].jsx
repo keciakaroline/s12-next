@@ -4,7 +4,7 @@ import cx from "./index.module.scss";
 import { filterReservationsByStudent } from "../../domain/filterReservationsByStudent";
 import { useParams, useRouter } from "next/navigation";
 
-const Students = () => {
+const Student = () => {
   const { reservations, students } = useReservations();
   const router = useRouter();
   const params = useParams();
@@ -62,4 +62,4 @@ const Students = () => {
   );
 };
 
-export default Students;
+export default Student;

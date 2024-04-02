@@ -4,7 +4,7 @@ import cx from "./index.module.scss";
 import { filterReservationsByRoom } from "../../domain/filterReservationsByRoom";
 import { useParams, useRouter } from "next/navigation";
 
-const Rooms = () => {
+const Room = () => {
   const { reservations, rooms } = useReservations();
   const router = useRouter();
   const params = useParams();
@@ -64,4 +64,4 @@ const Rooms = () => {
   );
 };
 
-export default Rooms;
+export default Room;
