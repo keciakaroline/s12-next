@@ -1,27 +1,22 @@
 import { useReservations } from "../../application/hooks/useReservations";
-import { useEffect } from "react";
 import { Calendar } from "../../ui/components/Calendar";
 import cx from "./index.module.scss";
 import { filterReservationsByStudent } from "../../domain/filterReservationsByStudent";
 import { useParams, useRouter } from "next/navigation";
 
 const Students = () => {
-  const { reservations, students, isLoading } = useReservations();
+  const { reservations, students } = useReservations();
   const router = useRouter();
   const params = useParams();
 
-  const hasSelectedStudent = params.id !== undefined;
-  useEffect(() => {
-    if (isLoading || hasSelectedStudent) {
-      return;
-    }
-
-    const [firstStudent] = students;
-    router.replace(`/students/${firstStudent.id}`);
-  }, [students, isLoading]);
-
-  if (!hasSelectedStudent) {
+  if (!reservations || !students) {
     return <>Loading...</>;
+  }
+
+  const [firstStudent] = students;
+  if (!students.some((student) => student.id.toString() === params.id)) {
+    router.replace(`/students/${firstStudent.id}`);
+    return;
   }
 
   const selectedStudent = students.find(
