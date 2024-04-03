@@ -1,6 +1,7 @@
 import { uniqBy } from "lodash";
 import { useContext } from "react";
 import { ReservationsContext } from "../providers/ReservationsProvider";
+import type { Student, Room, Reservation } from "../../types/types.ts";
 
 export const useReservations = () => {
   const value = useContext(ReservationsContext);
@@ -11,15 +12,15 @@ export const useReservations = () => {
 
   const { reservations } = value;
 
-  const students = reservations
+  const students: Student[] | undefined = reservations
     ? uniqBy(
-        reservations.map((reservation) => reservation.student),
+        reservations.map((reservation: Reservation) => reservation.student),
         "id"
       )
     : undefined;
-  const rooms = reservations
+  const rooms: Room[] | undefined = reservations
     ? uniqBy(
-        reservations.map((reservation) => reservation.room),
+        reservations.map((reservation: Reservation) => reservation.room),
         "id"
       )
     : undefined;
