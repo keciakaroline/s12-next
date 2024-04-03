@@ -1,23 +1,21 @@
 import cx from "./Header.module.scss";
-import { useViewState } from "../../application/hooks/useViewState";
+import Link from "next/link";
 
 export const Header = () => {
-  const { goToRooms, goToStudents, goToInventory } = useViewState();
-
   return (
     <header className={cx.header}>
       <h1 className={cx.title}>Sistema Interno</h1>
 
       <nav className={cx.navbar}>
         <ul className={cx.navbarList}>
-          <li onClick={() => goToRooms()} className={cx.navbarListItem}>
-            Salas
+          <li className={cx.navbarListItem}>
+            <Link href={"/rooms/"}>Salas</Link>
           </li>
-          <li onClick={() => goToStudents()} className={cx.navbarListItem}>
-            Alunos
+          <li className={cx.navbarListItem}>
+            <Link href={"/students/"}>Alunos</Link>
           </li>
-          <li onClick={() => goToInventory()} className={cx.navbarListItem}>
-            Inventário
+          <li className={cx.navbarListItem}>
+            <Link href={"/inventory/"}>Inventário</Link>
           </li>
         </ul>
       </nav>
