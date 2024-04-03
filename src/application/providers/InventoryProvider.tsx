@@ -1,7 +1,7 @@
 import { createContext, useMemo } from "react";
 import { useEffect, useState } from "react";
 import { fetchInventory } from "../../infrastructure/inner/fetchInventory";
-import type { InventoryItem, FragilityLevel } from "../../types/types";
+import type { InventoryItem } from "../../types/types";
 import { ReactNode } from "react";
 
 export const InventoryContext = createContext<
@@ -12,7 +12,7 @@ export const InventoryProvider = ({ children }: { children: ReactNode }) => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   useEffect(() => {
-    fetchInventory().then((data) => setInventory(data));
+    fetchInventory().then((data) => setInventory(data as InventoryItem[]));
   }, []);
 
   const value = useMemo(

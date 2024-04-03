@@ -3,6 +3,7 @@ import { Calendar } from "../../ui/components/Calendar";
 import cx from "./Rooms.module.scss";
 import { filterReservationsByRoom } from "../../domain/filterReservationsByRoom";
 import { useParams, useRouter } from "next/navigation";
+import { Reservation } from "@/types/types";
 
 const Room = () => {
   const { reservations, rooms } = useReservations();
@@ -28,7 +29,7 @@ const Room = () => {
   const selectedRoom = rooms.find(
     (room) => room.id.toString() === selectedRoomId
   );
-  const selectedRoomReservations = filterReservationsByRoom(
+  const selectedRoomReservations: Reservation[] = filterReservationsByRoom(
     reservations,
     selectedRoom
   );

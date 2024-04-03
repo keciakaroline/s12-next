@@ -3,17 +3,23 @@ import { Calendar } from "../../ui/components/Calendar";
 import cx from "./Students.module.scss";
 import { filterReservationsByStudent } from "../../domain/filterReservationsByStudent";
 import { useParams, useRouter } from "next/navigation";
+import { Reservation } from "@/types/types";
 
 const Student = () => {
   const { reservations, students } = useReservations();
   const router = useRouter();
   const params = useParams();
 
-  if (!reservations || !students) {
+  if (!reservations || !students || students.length === 0) {
     return <>Loading...</>;
   }
 
   const [firstStudent] = students;
+
+  if (!firstStudent) {
+    return <>No students available</>;
+  }
+
   if (!students.some((student) => student.id.toString() === params.id)) {
     router.replace(`/students/${firstStudent.id}`);
     return;
@@ -23,10 +29,8 @@ const Student = () => {
   const selectedStudent = students.find(
     (courseTaker) => courseTaker.id.toString() === params.id
   );
-  const selectedStudentReservations = filterReservationsByStudent(
-    reservations,
-    selectedStudent
-  );
+  const selectedStudentReservations: Reservation[] =
+    filterReservationsByStudent(reservations, selectedStudent);
 
   const entries = selectedStudentReservations.map((reservation) => ({
     id: reservation.id.toString(),
