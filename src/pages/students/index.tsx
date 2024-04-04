@@ -1,26 +1,22 @@
-import { useReservations } from "@/application/hooks/useReservations";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { GetServerSideProps } from "next";
+import type { Reservation } from "@/types/types";
+import { fetchReservations } from "@/infrastructure/inner/fetchReservations";
+import { getStudentsFromReservations } from "@/utils/getStudentsFromReservations";
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const reservations: Reservation[] = await fetchReservations();
+  const [firstStudent] = getStudentsFromReservations(reservations);
+
+  return {
+    redirect: {
+      destination: `/students/${firstStudent.id}`,
+      permanent: false,
+    },
+  };
+};
 
 const Students = () => {
-  const { students, isLoading } = useReservations();
-  const router = useRouter();
-
-  const initialize = (isLoading: boolean) => {
-    if (isLoading || !students) {
-      return;
-    }
-
-    const [firstStudent] = students;
-    router.replace(`/students/${firstStudent.id}`);
-  };
-
-  const initializeRef = useRef(initialize);
-  initializeRef.current = initialize;
-
-  useEffect(() => {
-    initializeRef.current(isLoading);
-  }, [isLoading]);
+  return <> </>;
 };
 
 export default Students;
