@@ -1,9 +1,8 @@
-import { useReservations } from "../../application/hooks/useReservations";
 import { Calendar } from "../../ui/components/Calendar";
 import cx from "./Rooms.module.scss";
 import { filterReservationsByRoom } from "../../domain/filterReservationsByRoom";
 import { useParams, useRouter } from "next/navigation";
-import { Reservation, SerializedReservation, Room } from "@/types/types";
+import type { Reservation, SerializedReservation, Room } from "@/types/types";
 import { GetServerSideProps } from "next";
 import { fetchReservations } from "@/infrastructure/inner/fetchReservations";
 import { getRoomsFromReservations } from "@/utils/getRoomsFromReservations";
@@ -38,10 +37,6 @@ const Room = ({ serializedReservations, rooms }: RoomProps) => {
     startDate: new Date(reservation.startDate),
     endDate: new Date(reservation.endDate),
   }));
-
-  if (!reservations || !rooms || rooms.length === 0) {
-    return <>Loading...</>;
-  }
 
   const [firstRoom] = rooms;
 
