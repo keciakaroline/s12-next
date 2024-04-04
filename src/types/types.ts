@@ -17,6 +17,14 @@ export type Reservation = {
   student: Student;
 };
 
+export type SerializedReservation = Omit<
+  Reservation,
+  "startDate" | "endDate"
+> & {
+  startDate: string;
+  endDate: string;
+};
+
 export type FragilityLevel = 1 | 2 | 3 | 4 | 5;
 
 export type InventoryItem = {
