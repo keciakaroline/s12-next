@@ -1,5 +1,5 @@
 import { getInventory } from "../outer/api/getInventory";
-import type { InventoryItem } from "@/types/types";
+import type { InventoryItem, FragilityLevel } from "@/types/types";
 
 export const fetchInventory = async () => {
   const response = await getInventory();
@@ -11,7 +11,7 @@ export const fetchInventory = async () => {
       type: item.type,
       brand: item.brand,
       model: item.model,
-      fragility: item.fragility,
+      fragility: item.fragility as FragilityLevel,
       lastMaintenance: mapLastMaintenance(item.last_maintenance),
       sector: sector.sector,
     }))
