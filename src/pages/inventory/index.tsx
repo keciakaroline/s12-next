@@ -1,13 +1,35 @@
-import { useInventory } from "../../application/hooks/useInventory";
+import { GetServerSideProps } from "next";
 import { InventoryItem } from "../../ui/components/InventoryItem";
 import cx from "./Inventory.module.scss";
+import { fetchInventory } from "@/infrastructure/inner/fetchInventory";
+import type {
+  InventoryItem as InventoryItemT,
+  SerializedInventoryItem,
+} from "@/types/types";
 
-const Inventory = () => {
-  const { inventory, isLoading } = useInventory();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const inventoryItem: InventoryItemT[] = await fetchInventory();
+  const serializedInventory: SerializedInventoryItem[] = inventoryItem.map(
+    (item) => ({
+      ...item,
+      lastMaintenance: item.lastMaintenance.toISOString(),
+    })
+  );
 
-  if (isLoading) {
-    return <>Loading...</>;
-  }
+  return {
+    props: { serializedInventory },
+  };
+};
+
+type InventoryProps = {
+  serializedInventory: SerializedInventoryItem[];
+};
+
+const Inventory = ({ serializedInventory }: InventoryProps) => {
+  const inventory = serializedInventory.map((item) => ({
+    ...item,
+    lastMaintenance: new Date(item.lastMaintenance),
+  }));
 
   return (
     <ul className={cx.list}>
