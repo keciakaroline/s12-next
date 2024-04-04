@@ -20,7 +20,11 @@ export const fetchInventory = async () => {
   return inventory;
 };
 
-const mapLastMaintenance = (lastMaintenance: Date) => {
+const mapLastMaintenance = (lastMaintenance: {
+  day: number;
+  month: number;
+  year: number;
+}) => {
   const { day, month, year } = lastMaintenance;
 
   return new Date(year, month, day);
