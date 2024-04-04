@@ -1,19 +1,53 @@
-import { useReservations } from "../../application/hooks/useReservations";
 import { Calendar } from "../../ui/components/Calendar";
-import cx from "./index.module.scss";
+import cx from "./Students.module.scss";
 import { filterReservationsByStudent } from "../../domain/filterReservationsByStudent";
 import { useParams, useRouter } from "next/navigation";
+import type {
+  Reservation,
+  SerializedReservation,
+  Student,
+} from "@/types/types";
+import { GetServerSideProps } from "next";
+import { getStudentsFromReservations } from "@/utils/getStudentsFromReservations";
+import { fetchReservations } from "@/infrastructure/inner/fetchReservations";
 
-const Student = () => {
-  const { reservations, students } = useReservations();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const reservations: Reservation[] = await fetchReservations();
+  const students = getStudentsFromReservations(reservations);
+  const serializedReservations: SerializedReservation[] = reservations.map(
+    (reservation) => ({
+      ...reservation,
+      startDate: reservation.startDate.toISOString(),
+      endDate: reservation.endDate.toISOString(),
+    })
+  );
+
+  return {
+    props: { students, serializedReservations },
+  };
+};
+
+type StudentProps = {
+  serializedReservations: SerializedReservation[];
+  students: Student[];
+};
+
+const Student = ({ students, serializedReservations }: StudentProps) => {
   const router = useRouter();
   const params = useParams();
 
-  if (!reservations || !students) {
-    return <>Loading...</>;
-  }
+  const reservations = serializedReservations.map((reservation) => ({
+    ...reservation,
+    startDate: new Date(reservation.startDate),
+    endDate: new Date(reservation.endDate),
+  }));
 
   const [firstStudent] = students;
+
+  if (!firstStudent) {
+    return <p>No students available</p>;
+  }
+
   if (!students.some((student) => student.id.toString() === params.id)) {
     router.replace(`/students/${firstStudent.id}`);
     return;
@@ -23,10 +57,8 @@ const Student = () => {
   const selectedStudent = students.find(
     (courseTaker) => courseTaker.id.toString() === params.id
   );
-  const selectedStudentReservations = filterReservationsByStudent(
-    reservations,
-    selectedStudent
-  );
+  const selectedStudentReservations: Reservation[] =
+    filterReservationsByStudent(reservations, selectedStudent);
 
   const entries = selectedStudentReservations.map((reservation) => ({
     id: reservation.id.toString(),

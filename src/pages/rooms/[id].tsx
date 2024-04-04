@@ -1,30 +1,59 @@
-import { useReservations } from "../../application/hooks/useReservations";
 import { Calendar } from "../../ui/components/Calendar";
-import cx from "./index.module.scss";
+import cx from "./Rooms.module.scss";
 import { filterReservationsByRoom } from "../../domain/filterReservationsByRoom";
 import { useParams, useRouter } from "next/navigation";
+import type { Reservation, SerializedReservation, Room } from "@/types/types";
+import { GetServerSideProps } from "next";
+import { fetchReservations } from "@/infrastructure/inner/fetchReservations";
+import { getRoomsFromReservations } from "@/utils/getRoomsFromReservations";
 
-const Room = () => {
-  const { reservations, rooms } = useReservations();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const reservations: Reservation[] = await fetchReservations();
+  const rooms = getRoomsFromReservations(reservations);
+  const serializedReservations: SerializedReservation[] = reservations.map(
+    (reservation) => ({
+      ...reservation,
+      startDate: reservation.startDate.toISOString(),
+      endDate: reservation.endDate.toISOString(),
+    })
+  );
+
+  return {
+    props: { rooms, serializedReservations },
+  };
+};
+
+type RoomProps = {
+  serializedReservations: SerializedReservation[];
+  rooms: Room[];
+};
+
+const Room = ({ serializedReservations, rooms }: RoomProps) => {
   const router = useRouter();
   const params = useParams();
 
-  if (!reservations || !rooms) {
-    return <>Loading...</>;
-  }
+  const reservations = serializedReservations.map((reservation) => ({
+    ...reservation,
+    startDate: new Date(reservation.startDate),
+    endDate: new Date(reservation.endDate),
+  }));
 
   const [firstRoom] = rooms;
+
+  if (!firstRoom) {
+    return <p>No rooms available</p>;
+  }
 
   if (!rooms.some((room) => room.id.toString() === params.id)) {
     router.replace(`/rooms/${firstRoom.id}`);
     return;
   }
 
-  const selectedRoomId = params.id;
+  const selectedRoomId = params.id as string;
   const selectedRoom = rooms.find(
     (room) => room.id.toString() === selectedRoomId
   );
-  const selectedRoomReservations = filterReservationsByRoom(
+  const selectedRoomReservations: Reservation[] = filterReservationsByRoom(
     reservations,
     selectedRoom
   );
