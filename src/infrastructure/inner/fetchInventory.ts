@@ -1,10 +1,11 @@
 import { getInventory } from "../outer/api/getInventory";
+import type { InventoryItem } from "@/types/types";
 
 export const fetchInventory = async () => {
   const response = await getInventory();
   const sectors = response.data;
 
-  return sectors.flatMap((sector) =>
+  const inventory: InventoryItem[] = sectors.flatMap((sector) =>
     sector.items.map((item) => ({
       id: item.id,
       type: item.type,
@@ -15,9 +16,11 @@ export const fetchInventory = async () => {
       sector: sector.sector,
     }))
   );
+
+  return inventory;
 };
 
-const mapLastMaintenance = (lastMaintenance) => {
+const mapLastMaintenance = (lastMaintenance: Date) => {
   const { day, month, year } = lastMaintenance;
 
   return new Date(year, month, day);
