@@ -36,3 +36,7 @@ export type InventoryItem = {
   lastMaintenance: Date;
   sector: string;
 };
+
+export type SerializedInventoryItem = Omit<InventoryItem, "lastMaintenance"> & {
+  lastMaintenance: string;
+};
