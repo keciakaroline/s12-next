@@ -41,7 +41,7 @@ const Room = ({ serializedReservations, rooms }: RoomProps) => {
   const [firstRoom] = rooms;
 
   if (!firstRoom) {
-    return <>No rooms available</>;
+    return <p>No rooms available</p>;
   }
 
   if (!rooms.some((room) => room.id.toString() === params.id)) {

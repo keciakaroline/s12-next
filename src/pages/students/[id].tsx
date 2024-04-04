@@ -45,7 +45,7 @@ const Student = ({ students, serializedReservations }: StudentProps) => {
   const [firstStudent] = students;
 
   if (!firstStudent) {
-    return <>No students available</>;
+    return <p>No students available</p>;
   }
 
   if (!students.some((student) => student.id.toString() === params.id)) {
