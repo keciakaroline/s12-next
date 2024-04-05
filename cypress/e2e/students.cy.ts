@@ -19,6 +19,6 @@ describe("Students Page", () => {
 
   it("displays student reservations", () => {
     cy.get("select").should("be.visible");
-    cy.get("[data-testid=student-reservation]").should("be.visible");
+    cy.get("[data-testid=reservation]").should("be.visible");
   });
 });
