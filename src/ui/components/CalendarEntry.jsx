@@ -26,6 +26,7 @@ export const CalendarEntry = ({ entry, groupColors }) => {
 
         backgroundColor: groupColors[entry.group],
       }}
+      data-testid="reservation"
     >
       <span>{entry.title}</span>
       <span>{entry.subtitle}</span>

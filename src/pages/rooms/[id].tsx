@@ -7,7 +7,7 @@ import { GetServerSideProps } from "next";
 import { fetchReservations } from "@/infrastructure/inner/fetchReservations";
 import { getRoomsFromReservations } from "@/utils/getRoomsFromReservations";
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const reservations: Reservation[] = await fetchReservations();
   const rooms = getRoomsFromReservations(reservations);
   const serializedReservations: SerializedReservation[] = reservations.map(

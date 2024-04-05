@@ -10,6 +10,7 @@ export const InventoryItem = ({ item }) => {
 
   return (
     <li
+      data-testid="inventory-item"
       className={cx.container}
       style={{ backgroundColor: displayableWear(wear).color }}
     >
