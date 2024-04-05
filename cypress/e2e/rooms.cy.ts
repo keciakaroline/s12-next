@@ -7,7 +7,7 @@ describe("Rooms Page", () => {
     cy.url().should("include", "/rooms/1");
   });
 
-  it("navigates between different students", () => {
+  it("navigates between different rooms", () => {
     const rooms = [1, 2, 3, 4, 5, 6];
 
     rooms.forEach((room) => {
@@ -19,5 +19,14 @@ describe("Rooms Page", () => {
   it("displays rooms reservations", () => {
     cy.get("select").should("be.visible");
     cy.get("[data-testid=reservation]").should("be.visible");
+  });
+
+  it("returns 500 error if url does not exist", () => {
+    cy.request({
+      url: "/rooms/0",
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(500);
+    });
   });
 });

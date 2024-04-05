@@ -21,4 +21,13 @@ describe("Students Page", () => {
     cy.get("select").should("be.visible");
     cy.get("[data-testid=reservation]").should("be.visible");
   });
+
+  it("returns 500 error if url does not exist", () => {
+    cy.request({
+      url: "/students/0",
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(500);
+    });
+  });
 });
