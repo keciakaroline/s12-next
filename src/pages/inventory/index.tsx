@@ -35,6 +35,7 @@ const Inventory = ({ serializedInventory }: InventoryProps) => {
     <ul className={cx.list}>
       {inventory.map((item) => (
         <InventoryItem
+          data-testid="inventory-item"
           key={item.id}
           item={item}
         />
